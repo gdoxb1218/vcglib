@@ -175,6 +175,7 @@ public:
       }
 
       Matrix44d globTransfd(mesh.getGlobalTransform().m);
+      Matrix44d geometricMatrix(mesh.getGeometricMatrix().m);
       /*
       Matrix44f globTransf;
       globTransf.SetIdentity();
@@ -190,7 +191,7 @@ public:
       for (int j = 0; j < vertex_count; ++j)
       {
         ofbx::Vec3 vt = vertices[j];
-        Point3d vd = globTransfd*Point3d(vt.x, vt.y, vt.z);
+        Point3d vd = globTransfd*geometricMatrix*Point3d(vt.x, vt.y, vt.z);
         CoordType v(vd.X(), vd.Y(), vd.Z());
         tri::Allocator<OpenMeshType>::AddVertex(m,v);
         if(cb && (m.vert.size()%1000) == 0 ) cb(m.vert.size() * 100 / totVert, "Vertex Loading");
